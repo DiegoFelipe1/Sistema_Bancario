@@ -17,36 +17,47 @@ extrato = []
 numero_saques = 0
 LIMITE_SAQUES = 3
 
+def deposito():
+    global saldo
+    print('\nDeposito')
+    deposito = float(input('Por favor, digite o valor que deseja depositar: '))
+        
+    if deposito > 0:
+        extrato.append(deposito)
+        saldo += deposito
+        print(f'Deposito efetuado com sucesso!!! Seu saldo é R$ {saldo:.2f}')
+    else:
+        print('Deposito falhou!!! Digite uma informação valida de deposito.')
+
+def saque(saque_cliente):
+    global saldo, LIMITE_SAQUES, numero_saques
+    print(saldo)
+
+    sem_saldo = saldo < saque_cliente
+    limite_diario = numero_saques > LIMITE_SAQUES
+    limite_de_saque = saque_cliente > limite
+
+    if sem_saldo:
+        print('Operação falhou!! Você não possui saldo na sua conta.')
+    elif limite_diario:
+        print('Operação falhou!! Você excedeu o limite diario para saque.')
+    elif limite_de_saque:
+        print('Operação falhou!! Por favor, digite um valo menor ou igual a R$ 500,00')
+    else:
+        numero_saques += 1
+        saldo -= saque_cliente
+        print(f'Saque efetuado com sucesso. Seu saldo é R$ {saldo:.2f}')
+        print(numero_saques)
+    
 while True:
 
     opcao = input((menu))
 
     if opcao == '1':
-        print('\nDeposito')
-        deposito = float(input('Por favor, digite o valor que deseja depositar: '))
-
-        if deposito > 0:
-            extrato.append(deposito)
-            saldo += deposito
-            print(f'Deposito efetuado com sucesso!!! Seu saldo é R$ {saldo:.2f}')
-        else:
-            print('Deposito falhou!!! Digite uma informação valida de deposito.')
+        deposito()
     elif opcao == '2':
-        print('Saque')
-        print(f'Seu saldo é R$ {saldo:.2f}')
-        saque = float(input('Digite o valor que deseja sacar: '))
-
-        if numero_saques < LIMITE_SAQUES and saque <= limite and saque > 0:
-            if saque <= saldo:
-                saldo -= saque
-                numero_saques += 1
-                extrato.append(-saque)
-                print(f'Saque efetuado com sucesso!!! Seu saldo é R$ {saldo:.2f}.')
-            else:
-                print('Não foi possivel realizar o saque devido a saldo insuficiente')
-        else:
-            print('Não foi possivel realizar seu saque!!')
-
+        saque_cliente = (float(input(f'Por favor, digite o valor de saque: ')))
+        saque(saque_cliente)
     elif opcao == '3':
         print('Extrato\n')
         if extrato:                                                 #condição verificando se a lista EXTRATO esta vazia
